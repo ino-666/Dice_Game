@@ -1,0 +1,50 @@
+{
+  "roles": [
+    {
+      "roleName": "ゴッド・ファイブ",
+      "category": "Consecutive",
+      "requiredCount": 5,
+      "bonusScore": 10000
+    },
+    {
+      "roleName": "ラッキー・トリプル",
+      "category": "Consecutive",
+      "requiredCount": 3,
+      "bonusScore": 500
+    },
+    {
+      "roleName": "パーフェクト30",
+      "category": "Sum",
+      "requiredCount": 6,
+      "targetSum": 30,
+      "bonusScore": 1000
+    },
+    {
+      "roleName": "センター21",
+      "category": "Sum",
+      "requiredCount": 6,
+      "targetSum": 21,
+      "bonusScore": 100
+    },
+    {
+      "roleName": "フル・ストレート",
+      "category": "Special",
+      "bonusScore": 800
+    },
+    {
+      "roleName": "ミラクル・ミニマム",
+      "category": "Special",
+      "bonusScore": 50000
+    },
+    {
+      "roleName": "オール・イーブン",
+      "category": "Special",
+      "bonusScore": 300
+    },
+    {
+      "roleName": "オール・オッド",
+      "category": "Special",
+      "bonusScore": 300
+    }
+  ]
+}

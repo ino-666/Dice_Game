@@ -454,6 +454,52 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
+--- !u!1 &622256169
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 622256170}
+  - component: {fileID: 622256171}
+  m_Layer: 0
+  m_Name: DiceRoller
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &622256170
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 622256169}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 993626712}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &622256171
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 622256169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1d7b8ceea6cd4fbe865b69e7158662a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DiceRoller
+  useFixedValue: 1
+  fixedValue: 1
 --- !u!1 &745777861
 GameObject:
   m_ObjectHideFlags: 0
@@ -645,7 +691,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 993626712}
-  - component: {fileID: 993626714}
+  - component: {fileID: 993626713}
   m_Layer: 0
   m_Name: DiceManager
   m_TagString: Untagged
@@ -667,9 +713,10 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1123483188}
+  - {fileID: 622256170}
   m_Father: {fileID: 1304544744}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &993626714
+--- !u!114 &993626713
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -678,10 +725,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 993626711}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ee123306ab4a46c7a5e6d5857973821, type: 3}
+  m_Script: {fileID: 11500000, guid: 57f7e188a67254f169cad59b4482e9e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DiceManager
-  presenter: {fileID: 1123483189}
+  roller: {fileID: 622256171}
+  presenter: {fileID: 1123483191}
+  roleTable: {fileID: 11400000, guid: 84b03c7b95f7c46139cdd13d3952bc9d, type: 2}
 --- !u!1 &1123483187
 GameObject:
   m_ObjectHideFlags: 0
@@ -691,7 +740,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1123483188}
-  - component: {fileID: 1123483189}
+  - component: {fileID: 1123483191}
   - component: {fileID: 1123483190}
   m_Layer: 0
   m_Name: DicePresenter
@@ -715,23 +764,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 993626712}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1123483189
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1123483187}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f89cb1a261394780bf10237fdb04275, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DicePresenter
-  dicePrefab: {fileID: 290921554}
-  spawnPoint: {fileID: 1934595715}
-  fixDelay: 3
-  audioSource: {fileID: 1123483190}
-  rollSE: {fileID: 8300000, guid: f2bd5ef5189ff43169db2e599346d5a6, type: 3}
 --- !u!82 &1123483190
 AudioSource:
   m_ObjectHideFlags: 0
@@ -829,6 +861,23 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1123483191
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1123483187}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8d1e53c11f0b4297acc1464bbd12297, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DicePresenter
+  dicePrefab: {fileID: 290921554}
+  spawnPoint: {fileID: 1934595715}
+  fixDelay: 3
+  audioSource: {fileID: 1123483190}
+  rollSE: {fileID: 8300000, guid: d9a98a4a1661b41a5861c0d7a918743d, type: 3}
 --- !u!1 &1304544743
 GameObject:
   m_ObjectHideFlags: 0
@@ -858,8 +907,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 993626712}
   - {fileID: 1934595715}
+  - {fileID: 993626712}
   m_Father: {fileID: 745777862}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1670491753
@@ -951,7 +1000,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1934595715}
   m_Layer: 0
-  m_Name: SpawnPoint
+  m_Name: DiceSpawnPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
