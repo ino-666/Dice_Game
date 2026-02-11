@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class DiceManager : MonoBehaviour
 {
@@ -14,7 +15,20 @@ public class DiceManager : MonoBehaviour
         history.Reset();
     }
 
-    // UIボタンから呼ぶ
+    void Update()
+    {
+        if (Mouse.current.leftButton.wasPressedThisFrame)
+        {
+            RollDice();
+        }
+    
+        if (Touchscreen.current != null &&
+            Touchscreen.current.primaryTouch.press.wasPressedThisFrame)
+        {
+            RollDice();
+        }
+    }
+
     public void RollDice()
     {
         int result = roller.Roll();

@@ -7,22 +7,35 @@ public class DicePresenter : MonoBehaviour
     [SerializeField] private Transform spawnPoint;
     [SerializeField] private float fixDelay = 3f;
 
+    [Header("Sound")]
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip rollSE;
+
+    private GameObject currentDice;
+
     public void SpawnAndRoll(int result)
     {
-        GameObject dice = Instantiate(
-            dicePrefab,
-            spawnPoint.position,
-            Random.rotation
-        );
+        // 前のサイコロ削除
+        if (currentDice != null)
+        {
+            Destroy(currentDice);
+        }
 
-        Rigidbody rb = dice.GetComponent<Rigidbody>();
+        currentDice = Instantiate(dicePrefab, spawnPoint.position, Quaternion.identity);
+
+        // ★ 効果音（投げた瞬間）
+        if (rollSE != null)
+        {
+            audioSource.PlayOneShot(rollSE);
+        }
+
+        var rb = currentDice.GetComponent<Rigidbody>();
         rb.isKinematic = false;
-        rb.useGravity = true;
 
         rb.AddForce(Random.insideUnitSphere * 2f, ForceMode.Impulse);
-        rb.AddTorque(Random.insideUnitSphere * 5f, ForceMode.Impulse);
+        rb.AddTorque(Random.insideUnitSphere * 10f, ForceMode.Impulse);
 
-        StartCoroutine(FixDice(dice, result));
+        StartCoroutine(FixDice(currentDice, result));
     }
 
     private IEnumerator FixDice(GameObject dice, int result)
