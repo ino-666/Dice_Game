@@ -1,33 +1,41 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections.Generic;
+using System.Linq;
 
 public class DiceManager : MonoBehaviour
 {
     [SerializeField] private DiceRoller roller;
     [SerializeField] private DicePresenter presenter;
     [SerializeField] private DiceRoleTable roleTable;
+    [SerializeField] private UIManager uiManager;
+    
+    [SerializeField] private int currentDiceCount = 2;
+
     private Dictionary<string, int> roleCounts = new();
     private DiceHistory history;
     private int score;
 
     private void Awake()
     {
-        roleTable.LoadFromJson();
+        if (roleTable != null) roleTable.LoadFromJson();
         history = new DiceHistory();
         history.Reset();
         score = 0;
     }
 
+    private void Start()
+    {
+        if (uiManager != null)
+        {
+            uiManager.StartTimer(); // ゲーム開始時にタイマー起動
+            uiManager.UpdateScore(score);
+        }
+    }
+
     void Update()
     {
-        if (Mouse.current.leftButton.wasPressedThisFrame)
-        {
-            RollDice();
-        }
-    
-        if (Touchscreen.current != null &&
-            Touchscreen.current.primaryTouch.press.wasPressedThisFrame)
+        if (Pointer.current != null && Pointer.current.press.wasPressedThisFrame)
         {
             RollDice();
         }
@@ -35,38 +43,64 @@ public class DiceManager : MonoBehaviour
 
     public void RollDice()
     {
-        int result = roller.Roll();
-        presenter.SpawnAndRoll(result);
+        // 1. 演出：以前のサイコロをクリア
+        presenter.ClearOldDice();
 
-        history.Add(result);
-        Debug.Log($"Rolled: {result}");
-        Debug.Log($"History: {string.Join(",", history.GetAll())}");
+        List<int> currentResults = new List<int>();
 
-        // 基本スコア加算
-        score += result;
+        // 2. 指定された数だけサイコロを振る
+        for (int i = 0; i < currentDiceCount; i++)
+        {
+            int val = roller.Roll();
+            currentResults.Add(val);
+            presenter.SpawnAndRoll(val, i);
+        }
 
-        var matchedRoles = DiceRoleChecker
-            .Check(history.GetAll(), roleTable);
+        // 3. ログと履歴の処理
+        string diceDetails = string.Join(", ", currentResults);
+        int currentTotal = currentResults.Sum();
+        history.Add(currentTotal);
+
+        Debug.Log($"🎲 ロール結果: [{diceDetails}] (合計: {currentTotal})");
+
+        // 4. スコア加算と役判定
+        score += currentTotal;
+        var matchedRoles = DiceRoleChecker.Check(currentResults, history.GetAll(), roleTable);
+        
+        // --- UI 更新の処理 (メソッド内に含める) ---
+        if (uiManager != null)
+        {
+            uiManager.UpdateRollInfo(diceDetails, currentTotal);
+            uiManager.UpdateScore(score);
+            uiManager.UpdateHistory(history.GetAll());
+        }
 
         foreach (var role in matchedRoles)
         {
-            roleCounts.TryGetValue(role.roleName, out int count);
-            count++;
-            roleCounts[role.roleName] = count;
-
-            if (count == 1)
-            {
-                Debug.Log($"🆕 初成立！ {role.roleName} +{role.bonusScore}");
-            }
-            else
-            {
-                Debug.Log($"🔁 再成立 {role.roleName}（{count}回目） +{role.bonusScore}");
-            }
-
+            int count = ProcessRoleBonus(role); // 成立回数を受け取るよう修正
             score += role.bonusScore;
+
+            if (uiManager != null)
+            {
+                string logMsg = count == 1 ? $"🆕 初成立！ {role.roleName}" : $"🔁 再成立 {role.roleName}";
+                uiManager.PushRoleLog(logMsg);
+            }
         }
 
-        // ★ 現在の合計スコアを毎回ログに出す
-        Debug.Log($"💯 Current Score: {score}");
+        Debug.Log($"Total Score: {score}");
+    } // ← RollDice メソッドの終わり
+
+    private int ProcessRoleBonus(DiceRoleDefinition role)
+    {
+        roleCounts.TryGetValue(role.roleName, out int count);
+        count++;
+        roleCounts[role.roleName] = count;
+
+        if (count == 1)
+            Debug.Log($"🆕 初成立！ {role.roleName} +{role.bonusScore}");
+        else
+            Debug.Log($"🔁 再成立 {role.roleName}（{count}回目） +{role.bonusScore}");
+
+        return count;
     }
 }
