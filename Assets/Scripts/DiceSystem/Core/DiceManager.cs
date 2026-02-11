@@ -8,7 +8,7 @@ public class DiceManager : MonoBehaviour
     [SerializeField] private DiceRoller roller;
     [SerializeField] private DicePresenter presenter;
     [SerializeField] private DiceRoleTable roleTable;
-    [SerializeField] private UIManager uiManager;
+    [SerializeField] private UIManager uiManager; // 連携用
     
     [SerializeField] private int currentDiceCount = 2;
 
@@ -16,13 +16,13 @@ public class DiceManager : MonoBehaviour
     private DiceHistory history;
     private int score;
 
-    private void Awake()
-    {
-        if (roleTable != null) roleTable.LoadFromJson();
-        history = new DiceHistory();
-        history.Reset();
-        score = 0;
-    }
+private void Awake()
+{
+    // 一旦、外部ロードを止めてエディタの設定を優先させる
+    if (roleTable != null) roleTable.LoadFromJson(); 
+    
+    if (history == null) history = new DiceHistory();
+}
 
     private void Start()
     {
@@ -61,12 +61,13 @@ public class DiceManager : MonoBehaviour
         int currentTotal = currentResults.Sum();
         history.Add(currentTotal);
 
+        Debug.Log($"History: {string.Join(",", history.GetAll())}");
         Debug.Log($"🎲 ロール結果: [{diceDetails}] (合計: {currentTotal})");
 
         // 4. スコア加算と役判定
         score += currentTotal;
         var matchedRoles = DiceRoleChecker.Check(currentResults, history.GetAll(), roleTable);
-        
+        Debug.Log($"判定された役の数: {matchedRoles.Count()} 件 / ...");
         // --- UI 更新の処理 (メソッド内に含める) ---
         if (uiManager != null)
         {
@@ -82,13 +83,13 @@ public class DiceManager : MonoBehaviour
 
             if (uiManager != null)
             {
-                string logMsg = count == 1 ? $"🆕 初成立！ {role.roleName}" : $"🔁 再成立 {role.roleName}";
+                string logMsg = count == 1 ? $" 初成立！ {role.roleName}" : $" 再成立 {role.roleName}";
                 uiManager.PushRoleLog(logMsg);
             }
         }
 
         Debug.Log($"Total Score: {score}");
-    } // ← RollDice メソッドの終わり
+    }
 
     private int ProcessRoleBonus(DiceRoleDefinition role)
     {

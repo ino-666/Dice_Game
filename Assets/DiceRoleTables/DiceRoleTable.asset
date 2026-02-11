@@ -12,5 +12,69 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df925fde100ea4a8da9685744c63e051, type: 3}
   m_Name: DiceRoleTable
   m_EditorClassIdentifier: Assembly-CSharp::DiceRoleTable
-  roles: []
+  roles:
+  - roleName: "\u30B4\u30C3\u30C9\u30FB\u30D5\u30A1\u30A4\u30D6"
+    category: Consecutive
+    requiredCount: 5
+    targetValue: 0
+    bonusScore: 10000
+    requireAllDifferent: 0
+    requireAllEven: 0
+    requireAllOdd: 0
+  - roleName: "\u30E9\u30C3\u30AD\u30FC\u30FB\u30C8\u30EA\u30D7\u30EB"
+    category: Consecutive
+    requiredCount: 3
+    targetValue: 0
+    bonusScore: 500
+    requireAllDifferent: 0
+    requireAllEven: 0
+    requireAllOdd: 0
+  - roleName: "\u30D1\u30FC\u30D5\u30A7\u30AF\u30C830"
+    category: Sum
+    requiredCount: 6
+    targetValue: 0
+    bonusScore: 1000
+    requireAllDifferent: 0
+    requireAllEven: 0
+    requireAllOdd: 0
+  - roleName: "\u30BB\u30F3\u30BF\u30FC21"
+    category: Sum
+    requiredCount: 6
+    targetValue: 0
+    bonusScore: 100
+    requireAllDifferent: 0
+    requireAllEven: 0
+    requireAllOdd: 0
+  - roleName: "\u30D5\u30EB\u30FB\u30B9\u30C8\u30EC\u30FC\u30C8"
+    category: Special
+    requiredCount: 0
+    targetValue: 0
+    bonusScore: 800
+    requireAllDifferent: 0
+    requireAllEven: 0
+    requireAllOdd: 0
+  - roleName: "\u30DF\u30E9\u30AF\u30EB\u30FB\u30DF\u30CB\u30DE\u30E0"
+    category: Special
+    requiredCount: 0
+    targetValue: 0
+    bonusScore: 50000
+    requireAllDifferent: 0
+    requireAllEven: 0
+    requireAllOdd: 0
+  - roleName: "\u30AA\u30FC\u30EB\u30FB\u30A4\u30FC\u30D6\u30F3"
+    category: Special
+    requiredCount: 0
+    targetValue: 0
+    bonusScore: 300
+    requireAllDifferent: 0
+    requireAllEven: 0
+    requireAllOdd: 0
+  - roleName: "\u30AA\u30FC\u30EB\u30FB\u30AA\u30C3\u30C9"
+    category: Special
+    requiredCount: 0
+    targetValue: 0
+    bonusScore: 300
+    requireAllDifferent: 0
+    requireAllEven: 0
+    requireAllOdd: 0
   jsonFileName: dice_roles

@@ -18,14 +18,15 @@ public class UIManager : MonoBehaviour
     private float playTime = 0;
     private bool isTimerRunning = false;
 
-    void Update()
+void Update()
+{
+    if (isTimerRunning)
     {
-        if (isTimerRunning)
-        {
-            playTime += Time.deltaTime;
-            timeText.text = $"Time: {Mathf.FloorToInt(playTime)}s";
-        }
+        playTime += Time.deltaTime;
+        // :F2 をつけると小数点以下2桁固定になります
+        timeText.text = $"Time: {playTime:F2}s";
     }
+}
 
     public void StartTimer() => isTimerRunning = true;
 
