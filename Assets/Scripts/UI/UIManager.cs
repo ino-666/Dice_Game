@@ -23,7 +23,6 @@ void Update()
     if (isTimerRunning)
     {
         playTime += Time.deltaTime;
-        // :F2 をつけると小数点以下2桁固定になります
         timeText.text = $"Time: {playTime:F2}s";
     }
 }

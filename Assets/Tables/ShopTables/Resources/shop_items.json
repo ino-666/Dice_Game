@@ -1,0 +1,44 @@
+{
+  "items": [
+    {
+      "id": "dice_2",
+      "itemName": "Dice 2",
+      "type": "DiceCount",
+      "cost": 50,
+      "intValue": 2,
+      "floatValue": 0
+    },
+    {
+      "id": "dice_3",
+      "itemName": "Dice 3",
+      "type": "DiceCount",
+      "cost": 100,
+      "intValue": 3,
+      "floatValue": 0
+    },
+    {
+      "id": "dice_4",
+      "itemName": "Dice 4",
+      "type": "DiceCount",
+      "cost": 300,
+      "intValue": 4,
+      "floatValue": 0
+    },
+    {
+      "id": "dice_5",
+      "itemName": "Dice 5",
+      "type": "DiceCount",
+      "cost": 500,
+      "intValue": 5,
+      "floatValue": 0
+    },
+    {
+      "id": "score_x2",
+      "itemName": "Score x2",
+      "type": "ScoreMultiplier",
+      "cost": 300,
+      "intValue": 0,
+      "floatValue": 2.0
+    }
+  ]
+}
